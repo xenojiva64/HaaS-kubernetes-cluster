@@ -44,13 +44,13 @@ sudo systemctl enable docker
 sudo apt update
 sudo apt install git wget curl
 
-VER=$(curl -s https://api.github.com/repos/Mirantis/cri-dockerd/releases/latest|grep tag_name | cut -d '"' -f 4)
+VER=$(curl -s https://api.github.com/repos/Mirantis/cri-dockerd/releases/latest | grep tag_name | cut -d '"' -f 4)
 echo $VER
 
 wget https://github.com/Mirantis/cri-dockerd/releases/download/${VER}/cri-dockerd-${VER}-linux-amd64.tar.gz
 tar xvf cri-dockerd-${VER}-linux-amd64.tar.gz
 
-sudo mv cri-dockerd /usr/local/bin/
+sudo mv cri-dockerd/cri-dockerd /usr/local/bin/
 
 wget https://raw.githubusercontent.com/Mirantis/cri-dockerd/master/packaging/systemd/cri-docker.service
 wget https://raw.githubusercontent.com/Mirantis/cri-dockerd/master/packaging/systemd/cri-docker.socket
