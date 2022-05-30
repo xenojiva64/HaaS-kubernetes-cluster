@@ -1,1 +1,1 @@
-sudo kubeadm init --pod-network-cidr=172.16.0.0/16 --service-cidr=10.10.0.0/16
+sudo kubeadm init --pod-network-cidr=172.16.0.0/16 --service-cidr=10.10.0.0/16 --cri-socket /run/cri-dockerd.sock
