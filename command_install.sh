@@ -36,6 +36,20 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubun
 sudo apt update
 sudo apt install -y containerd.io docker-ce docker-ce-cli
 
+sudo mkdir -p /etc/systemd/system/docker.service.d
+sudo tee /etc/docker/daemon.json <<EOF
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2"
+}
+EOF
+
+
+
 sudo systemctl daemon-reload 
 sudo systemctl restart docker
 sudo systemctl enable docker
@@ -44,11 +58,11 @@ sudo systemctl enable docker
 sudo apt update
 sudo apt install git wget curl
 
-VER=$(curl -s https://api.github.com/repos/Mirantis/cri-dockerd/releases/latest | grep tag_name | cut -d '"' -f 4)
+VER=$(curl -s https://api.github.com/repos/Mirantis/cri-dockerd/releases/latest|grep tag_name | cut -d '"' -f 4|sed 's/v//g')
 echo $VER
 
-wget https://github.com/Mirantis/cri-dockerd/releases/download/${VER}/cri-dockerd-${VER}-linux-amd64.tar.gz
-tar xvf cri-dockerd-${VER}-linux-amd64.tar.gz
+wget https://github.com/Mirantis/cri-dockerd/releases/download/v${VER}/cri-dockerd-${VER}.amd64.tgz
+tar xvf cri-dockerd-${VER}.amd64.tgz
 
 sudo mv cri-dockerd/cri-dockerd /usr/local/bin/
 
@@ -62,3 +76,5 @@ sudo systemctl enable cri-docker.service
 sudo systemctl enable --now cri-docker.socket
 
 #systemctl status cri-docker.socket
+
+#kubeadm join 192.168.42.216:6443 --token ktk3jt.tctmp672iopc6evy --discovery-token-ca-cert-hash sha256:c51d289231ae0c0f7dac55fb8c65add03c9d0def6fef37f759563e445ef0f203 --cri-socket /run/cri-dockerd.sock
