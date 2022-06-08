@@ -64,7 +64,7 @@ spec:
   # http:
   #   service:
   #     spec:
-  #       # expose this cluster Service with a LoadBalancer
+  #     # expose this cluster Service with a LoadBalancer
   #       type: LoadBalancer
   #   tls:
   #     selfSignedCertificate:
@@ -75,4 +75,4 @@ spec:
   #       - dns: elasticsearch-sample.example.com
   #     certificate:
   #       # provide your own certificate
-  #       secretName: my-cert
+  #       secretName: my-cert 
