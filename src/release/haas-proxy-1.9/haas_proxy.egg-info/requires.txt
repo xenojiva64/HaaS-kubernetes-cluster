@@ -1,0 +1,8 @@
+twisted[conch]>=16.0
+requests
+cachetools
+
+[test]
+pylint
+pytest
+mock
